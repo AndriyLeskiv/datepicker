@@ -1,0 +1,43 @@
+<div class='datepicker'>
+  <div class="datepicker__controls">
+    <form [formGroup]='dateForm' class=''>
+      <input 
+        type="text" 
+        name='dateFrom' 
+        formControlName='dateFrom' 
+        placeholder='From Date'>
+      <input 
+        type="text" 
+        placeholder='To Date' 
+        name='dateTo' 
+        formControlName='dateTo'>
+      <button class='btn' (click)='reserve()'>Apply</button>
+    </form>
+  </div>
+  <div *ngIf='isReserved' class=''>
+    {{isReserved}}
+  </div>
+  <div class='datepicker__chevron_btn'>
+    <div class='fa fa-chevron-left ' (click)='previousMonth()'> --- </div>
+    <div class='fa fa-chevron-right ' (click)='nextMonth() '> ---> </div>
+  </div>
+  <div class="datepicker__calendar_container">
+    <div *ngFor="let month of daysArr; let i = index">
+      <div class="datepicker__calendar_month_name">{{month[15].format('MMMM ')}} {{month[15].format('YYYY ')}}</div>
+      <div class='datepicker__calendar_week_days'>
+        <div>S</div>
+        <div>M</div>
+        <div>T</div>
+        <div>W</div>
+        <div>T</div>
+        <div>F</div>
+        <div>S</div>
+      </div>
+      <div class='datepicker__calendar_days'>
+        <div *ngFor="let day of month">
+          <div class='datepicker__calendar_day' (click)='selectedDate(day)' [ngClass]="{'inactive ': !day, 'selected': isSelected(day), 'today': todayCheck(day)}">{{day?.date()}}</div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
