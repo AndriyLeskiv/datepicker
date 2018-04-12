@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import * as moment from 'moment';
+import * as moment from 'moment'
 
 @Component({
   selector: 'app-datepicker',
@@ -20,11 +20,11 @@ export class DatepickerComponent implements OnInit {
   public isReserved = null;
 
   public daysArr =[];
+  public numWeeks = [];
 
   constructor(private fb: FormBuilder) {
     this.initDateRange();
   }
-
   public initDateRange() {
     return (this.dateForm = this.fb.group({
       dateFrom: [null, Validators.required],
@@ -33,18 +33,23 @@ export class DatepickerComponent implements OnInit {
   }
 
   public ngOnInit() {
-    let date = moment();
-    console.log(date);
-    for(let i = 0; i< 3; i++) {
-      const month = moment().add(i, "M");
-      let a = this.createCalendar(month)
-      this.daysArr.push(a)
-    }
-
-    console.log(this.daysArr);
+    this.createCalendar(moment());
+    console.log(this.numWeeks)
+    
   }
 
-  public createCalendar(month) {
+  public createCalendar(date) {
+    for (let i = 0; i < 3; i++) {
+      
+      const month = moment().add(i, "M");
+      this.numWeeks.push(this.createNumWeeks(month));
+      let monthDays = this.createCalendarMonth(month)
+      this.daysArr.push(monthDays);
+    }
+  }
+  
+
+  public createCalendarMonth(month) {
     let firstDay = moment(month).startOf('M');
     let days = Array.apply(null, { length: month.daysInMonth()})
       .map(Number.call, Number)
@@ -52,20 +57,36 @@ export class DatepickerComponent implements OnInit {
         return moment(firstDay).add(n, 'd');
       });
 
-    for (let n = 0; n < firstDay.weekday(); n++) {
+   let a = firstDay.weekday();
+   a = a-1;
+    if(a < 0){
+      a = 6
+    }
+
+    for (let n = 0; n < a; n++) {
       days.unshift(null);
     }
     return days;
   }
 
+  public createNumWeeks(date) {
+    let firstDay = moment(date).startOf('M');
+    let num = [];
+    let a = firstDay.week() + 6
+    for(let i = firstDay.week(); i < a; i++) {
+      num.push(i);
+    }
+    return num;
+  }
+
   public nextMonth() {
     this.date.add(1, 'M');
-    this.daysArr = this.createCalendar(this.date);
+    // this.daysArr = this.createCalendar(this.date);
   }
 
   public previousMonth() {
     this.date.subtract(1, 'M');
-    this.daysArr = this.createCalendar(this.date);
+    // this.daysArr = this.createCalendar(this.date);
   }
 
   public todayCheck(day) {

@@ -15,7 +15,7 @@
     justify-content: space-between;
   }
   &__calendar_container>div {
-    width: 170px;
+    width: 195px;
     margin-right: 20px;
   }
   &__calendar_container {
@@ -24,6 +24,17 @@
   &__calendar_month_name {
     color: #0279c1;
     text-align: center;
+  }
+  &__calendar_weeks{
+      display: inline-block;
+      float: left;
+      div{
+          height: 24px;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+      }
   }
   &__calendar_week_days {
     display: flex;

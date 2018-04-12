@@ -25,13 +25,19 @@
     <div *ngFor="let month of daysArr; let i = index">
       <div class="datepicker__calendar_month_name">{{month[15].format('MMMM ')}} {{month[15].format('YYYY ')}}</div>
       <div class='datepicker__calendar_week_days'>
-        <div>S</div>
-        <div>M</div>
-        <div>T</div>
-        <div>W</div>
-        <div>T</div>
-        <div>F</div>
-        <div>S</div>
+        <div>Wk</div>
+        <div>Mo</div>
+        <div>Tu</div>
+        <div>We</div>
+        <div>Th</div>
+        <div>Fr</div>
+        <div>Sa</div>
+        <div>Su</div>
+      </div>
+      <div class="datepicker__calendar_weeks">
+        <div *ngFor="let week of numWeeks[i];">
+          {{week}}
+        </div>
       </div>
       <div class='datepicker__calendar_days'>
         <div *ngFor="let day of month">
