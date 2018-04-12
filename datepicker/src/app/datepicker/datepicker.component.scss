@@ -1,48 +1,64 @@
 .datepicker {
-    &__controls {
-        form{
-            display: flex;
-            align-items: center;
-        }
+        max-width: 540px;
+
+            position: absolute;
+    top: 36%;
+    left: 25%;
+  &__controls {
+    form {
+      display: flex;
+      align-items: center;
     }
-    &__chevron_btn{
-        display: flex;
-        justify-content: space-between;
+  }
+  &__chevron_btn {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__calendar_container>div {
+    width: 170px;
+    margin-right: 20px;
+  }
+  &__calendar_container {
+    display: flex;
+  }
+  &__calendar_month_name {
+    color: #0279c1;
+    text-align: center;
+  }
+  &__calendar_week_days {
+    display: flex;
+    div {
+      width: 24px;
+      height: 24px;
+      color: grey;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    
-    &__calendar_container > div{
-        width: 470px;
+  }
+  &__calendar_days {
+    flex-wrap: wrap;
+    display: flex;
+  }
+  &__calendar_day {
+    width: 24px;
+    height: 24px;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover{
+        cursor:pointer;
     }
-    &__calendar_container{
-        display: flex;
+    &.inactive {
+      opacity: 0.5;
     }
-    &__calendar_week_days{
-        display: flex;
-        div {
-            width: 60px;
-            height: 60px;
-            background: #669999;
-            border: 3px solid #c2c2c2;
-        }
+    &.selected {
+      background: #0279c1;
+      color: white;
     }
-    &__calendar_days{
-        flex-wrap: wrap;
-        display: flex;
+    &.today {
+      color: red;
     }
-    &__calendar_day{
-        width: 60px;
-        height: 60px;
-        background: #669999;
-        border: 3px solid #c2c2c2;
-        &.inactive {
-            opacity: 0.5;
-        }
-        &.selected {
-            background: peru;
-            opacity: 0.6;
-        }
-        &.today {
-            color: red;
-        }
-    }
+  }
 }

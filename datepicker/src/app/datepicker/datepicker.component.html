@@ -11,7 +11,7 @@
         placeholder='To Date' 
         name='dateTo' 
         formControlName='dateTo'>
-      <button class='btn' (click)='reserve()'>Apply</button>
+      
     </form>
   </div>
   <div *ngIf='isReserved' class=''>
@@ -40,4 +40,5 @@
       </div>
     </div>
   </div>
+  <button class='btn' (click)='reserve()'>Apply</button>
 </div>
