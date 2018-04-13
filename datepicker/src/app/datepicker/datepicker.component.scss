@@ -17,6 +17,13 @@
     margin-bottom: 26px;
     padding-bottom: 5px;
   }
+  &__quarter_year {
+    color: #aeb1b2;
+    text-decoration: underline;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
   &__quarter_container {
     display: flex;
     margin-right: 16px
@@ -28,19 +35,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: -1px;
+    margin-right: 2px;
+    &.selected {
+      border-color: #0279c1;
+    }
     &:hover {
-        cursor: pointer;
+      cursor: pointer;
     }
   }
   &__quarter_num {
     text-align: center;
     color: #aeb1b2;
+    font-size: 12px;
+    font-weight: 600;
     padding-right: 16px;
-    p{
-        border-bottom: 1px solid;
-    width: 30px;
-    margin: 9px auto;
+    p {
+      border-bottom: 1px solid;
+      width: 16px;
+      margin: 9px auto;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
   &__chevron_btn {
@@ -112,7 +127,8 @@
     }
   }
 }
+
 .selected {
-      background: #0279c1;
-      color: white;
-    }
+  background: #0279c1;
+  color: white;
+}

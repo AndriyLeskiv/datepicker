@@ -23,7 +23,7 @@
   <div class="datepicker__quarter">
     <div></div>
     <div *ngFor="let month of quarter; let i = index">
-      <div class="">{{month[1].year()}}</div>
+      <div class="datepicker__quarter_year" (click)="selectedYear(month[0])">{{month[1].year()}}</div>
       <div class="datepicker__quarter_container" >
         <div 
           class="datepicker__quarter_month" 
@@ -34,7 +34,7 @@
           {{oneQuarter.month()}}
         </div>
       </div>
-      <div class="datepicker__quarter_num">
+      <div class="datepicker__quarter_num" (click)="selectedOneQuarter(month[0])">
         <p>{{month[1].quarter()}}<sup>th</sup></p></div>
     </div>
   </div>
@@ -45,7 +45,7 @@
   <div class="datepicker__calendar_container">
     <div *ngFor="let month of daysArr; let i = index">
       <div class="datepicker__calendar_month_name">
-        {{month[15].format('MMMM ')}} {{month[15].format('YYYY ')}}
+        {{month[15].format('MMMM ').slice(0,3)}} {{month[15].format('YYYY ')}}
       </div>
       <div class='datepicker__calendar_week_days'>
         <div>Wk</div>
