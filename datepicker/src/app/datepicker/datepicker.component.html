@@ -1,5 +1,4 @@
-<div class='datepicker'>
-  <div class="datepicker__controls">
+<div class="datepicker__controls">
     <form [formGroup]='dateForm' class=''>
       <input 
         type="text" 
@@ -16,29 +15,35 @@
   <div *ngIf='isReserved' class=''>
     {{isReserved}}
   </div>
-  <div class='datepicker__chevron_btn'>
+
+<div class="datepicker">
+  <h2  class="datepicker__title" >Hightlight a Date Range</h2>
+  <div class='datepicker__chevron_btn --quarter'>
     <div class='fa fa-chevron-left ' (click)='previousQuarter()'> </div>
     <div class='fa fa-chevron-right ' (click)='nextQuarter() '></div>
   </div>
   <div class="datepicker__quarter">
     <div></div>
     <div *ngFor="let month of quarter; let i = index">
-      <div class="datepicker__quarter_year" (click)="selectedYear(month[0])">{{month[1].year()}}</div>
+      <div class="datepicker__quarter_year" (click)="selectedYear(month[0])">
+        {{month[1].year()}}
+      </div>
       <div class="datepicker__quarter_container" >
         <div 
           class="datepicker__quarter_month" 
           (click)='selectedQuarter(oneQuarter)' 
           *ngFor="let oneQuarter of month;"
           [ngClass]="{ 
-            'selected': isSelectedQuarter(oneQuarter)}">
+            'selected': isSelected(oneQuarter)}">
           {{oneQuarter.month()}}
         </div>
       </div>
-      <div class="datepicker__quarter_num" (click)="selectedOneQuarter(month[0])">
-        <p>{{month[1].quarter()}}<sup>th</sup></p></div>
+      <div class="datepicker__quarter_num">
+        <p  (click)="selectedOneQuarter(month[0])">{{month[1].quarter()}}<sup>th</sup></p>
+      </div>
     </div>
   </div>
-  <div class='datepicker__chevron_btn'>
+  <div class='datepicker__chevron_btn --month'>
     <div class='fa fa-chevron-left ' (click)='previousMonth()'></div>
     <div class='fa fa-chevron-right ' (click)='nextMonth() '></div>
   </div>

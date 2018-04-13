@@ -19,14 +19,14 @@ export class DatepickerComponent implements OnInit {
   public dateForm: FormGroup;
 
   public isReserved = null;
-
-  public daysArr =[];
+  public daysArr = [];
   public numWeeks = [];
   public quarter = []
 
   constructor(private fb: FormBuilder) {
     this.initDateRange();
   }
+  
   public initDateRange() {
     return (this.dateForm = this.fb.group({
       dateFrom: [null, Validators.required],
@@ -145,28 +145,20 @@ export class DatepickerComponent implements OnInit {
     }
   }
 
-  public isSelectedQuarter(day) {
-    let dateFromMoment = moment(this.dateForm.value.dateFrom, 'MM/DD/YYYY');
-    let dateToMoment = moment(this.dateForm.value.dateTo, 'MM/DD/YYYY');
-    if (this.dateForm.valid) {
-      return (
-        dateFromMoment.isSameOrBefore(day) && dateToMoment.isSameOrAfter(day)
-      );
-    }
-     if (this.dateForm.get('dateFrom').valid) {
-      return dateFromMoment.isSame(day);
-    }
+  public checkDate(day) {
+    if (!day) return false;
+    if (this.dateForm.valid) this.dateForm.setValue({ dateFrom: null, dateTo: null });
+    return true;
+  }
+
+  public updateCalendar(day) {
+    this.date = moment(day).startOf('M');
+    this.createCalendar(this.date);
   }
 
   public selectedDate(day) {
-    if (!day) {
-      return false;
-    }
+    if(!(this.checkDate(day))) return;
     let dayFormatted = day.format('MM/DD/YYYY');
-    if (this.dateForm.valid) {
-      this.dateForm.setValue({ dateFrom: null, dateTo: null });
-      // return;
-    }
     if (!this.dateForm.get('dateFrom').value) {
       this.dateForm.get('dateFrom').patchValue(dayFormatted);
     } else {
@@ -175,45 +167,38 @@ export class DatepickerComponent implements OnInit {
   }
 
   public selectedQuarter(day) {
+    if(!(this.checkDate(day))) return;
     let dayFormatted = day.startOf('M').format('MM/DD/YYYY');
-    if (this.dateForm.valid) {
-      this.dateForm.setValue({ dateFrom: null, dateTo: null });
-      // return;
-    }
+  
     if (!this.dateForm.get('dateFrom').value) {
       this.dateForm.get('dateFrom').patchValue(dayFormatted);
-      this.date = moment(day).startOf('M');
-      this.createCalendar(day.startOf('M'));
+      this.updateCalendar(day);
     } else {
       this.dateForm.get('dateTo').patchValue(moment(dayFormatted).endOf('M').format('MM/DD/YYYY'));
     }
   }
 
   public selectedOneQuarter(day) {
+    if(!(this.checkDate(day))) return;
     let dayFormatted = day.startOf('M').format('MM/DD/YYYY');
-    if (this.dateForm.valid) {
-      this.dateForm.setValue({ dateFrom: null, dateTo: null });
-      // return;
-    }
+
     if (!this.dateForm.get('dateFrom').value) {
       this.dateForm.get('dateFrom').patchValue(dayFormatted);
-       this.dateForm.get('dateTo').patchValue(moment(dayFormatted).endOf('M').add(2, "M").format('MM/DD/YYYY'));
-      this.date = moment(day).startOf('M');
-      this.createCalendar(day.startOf('M'));
+      this.dateForm.get('dateTo').patchValue(moment(dayFormatted).endOf('M').add(2, "M").format('MM/DD/YYYY'));
+     this.updateCalendar(day);
     }
   }
 
   public selectedYear (day) {
+    if(!(this.checkDate(day))) return;
     let dayFormatted = day.startOf('year').format('MM/DD/YYYY');
-    if (this.dateForm.valid) {
-      this.dateForm.setValue({ dateFrom: null, dateTo: null });
-      // return;
-    }
+
     if (!this.dateForm.get('dateFrom').value) {
       this.dateForm.get('dateFrom').patchValue(dayFormatted);
-       this.dateForm.get('dateTo').patchValue(moment(dayFormatted).endOf('year').format('MM/DD/YYYY'));
-      this.date = moment(dayFormatted).startOf('M');
-      this.createCalendar(moment(dayFormatted).startOf('M'));
+      this.dateForm.get('dateTo').patchValue(moment(dayFormatted).endOf('year').format('MM/DD/YYYY'));
+      this.quarterDate = moment(dayFormatted).startOf('M');
+      this.createQuarter(moment(dayFormatted).startOf('M'));
+      this.updateCalendar(dayFormatted);
     }
   }
 }
