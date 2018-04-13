@@ -13,6 +13,9 @@
   }
   &__quarter {
     display: flex;
+    border-bottom: 1px solid #dedede;
+    margin-bottom: 26px;
+    padding-bottom: 5px;
   }
   &__quarter_container {
     display: flex;
@@ -25,10 +28,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: -1px
+    margin-right: -1px;
+    &:hover {
+        cursor: pointer;
+    }
   }
   &__quarter_num {
     text-align: center;
+    color: #aeb1b2;
+    padding-right: 16px;
+    p{
+        border-bottom: 1px solid;
+    width: 30px;
+    margin: 9px auto;
+    }
   }
   &__chevron_btn {
     display: flex;
@@ -63,6 +76,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #aaaaaa;
     }
   }
   &__calendar_week_days {
@@ -70,7 +84,7 @@
     div {
       width: 24px;
       height: 24px;
-      color: grey;
+      color: #aaaaaa;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -93,12 +107,12 @@
     &.inactive {
       opacity: 0.5;
     }
-    &.selected {
-      background: #0279c1;
-      color: white;
-    }
     &.today {
       color: red;
     }
   }
 }
+.selected {
+      background: #0279c1;
+      color: white;
+    }

@@ -11,7 +11,6 @@
         placeholder='To Date' 
         name='dateTo' 
         formControlName='dateTo'>
-      
     </form>
   </div>
   <div *ngIf='isReserved' class=''>
@@ -26,11 +25,17 @@
     <div *ngFor="let month of quarter; let i = index">
       <div class="">{{month[1].year()}}</div>
       <div class="datepicker__quarter_container" >
-        <div class="datepicker__quarter_month" *ngFor="let oneQuarter of month;">
+        <div 
+          class="datepicker__quarter_month" 
+          (click)='selectedQuarter(oneQuarter)' 
+          *ngFor="let oneQuarter of month;"
+          [ngClass]="{ 
+            'selected': isSelectedQuarter(oneQuarter)}">
           {{oneQuarter.month()}}
         </div>
       </div>
-      <div class="datepicker__quarter_num">{{month[1].quarter()}} <sup>th</sup></div>
+      <div class="datepicker__quarter_num">
+        <p>{{month[1].quarter()}}<sup>th</sup></p></div>
     </div>
   </div>
   <div class='datepicker__chevron_btn'>
@@ -39,7 +44,9 @@
   </div>
   <div class="datepicker__calendar_container">
     <div *ngFor="let month of daysArr; let i = index">
-      <div class="datepicker__calendar_month_name">{{month[15].format('MMMM ')}} {{month[15].format('YYYY ')}}</div>
+      <div class="datepicker__calendar_month_name">
+        {{month[15].format('MMMM ')}} {{month[15].format('YYYY ')}}
+      </div>
       <div class='datepicker__calendar_week_days'>
         <div>Wk</div>
         <div>Su</div>
@@ -57,8 +64,16 @@
       </div>
       <div class='datepicker__calendar_days'>
         <div *ngFor="let day of month">
-          <div class='datepicker__calendar_day' (click)='selectedDate(day)' [ngClass]="{'inactive ': !day, 'selected': isSelected(day), 'today': todayCheck(day)}">{{day?.date()}}</div>
+          <div 
+            class='datepicker__calendar_day' 
+            (click)='selectedDate(day)' 
+            [ngClass]="{
+              'inactive ': !day, 
+              'selected': isSelected(day), 
+              'today': todayCheck(day)}">
+            {{day?.date()}}
           </div>
+        </div>
       </div>
     </div>
   </div>

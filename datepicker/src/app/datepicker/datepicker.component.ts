@@ -145,6 +145,21 @@ export class DatepickerComponent implements OnInit {
     }
   }
 
+  public isSelectedQuarter(day) {
+    let dateFromMoment = moment(this.dateForm.value.dateFrom, 'MM/DD/YYYY');
+    let dateToMoment = moment(this.dateForm.value.dateTo, 'MM/DD/YYYY');
+    if (this.dateForm.valid) {
+      return (
+        dateFromMoment.isSameOrBefore(day) && dateToMoment.isSameOrAfter(day)
+        // dateFromMoment == day
+      );
+    }
+     if (this.dateForm.get('dateFrom').valid) {
+      return dateFromMoment.isSame(day);
+    }
+    // return true;
+  }
+
   public selectedDate(day) {
     let dayFormatted = day.format('MM/DD/YYYY');
     if (this.dateForm.valid) {
@@ -157,4 +172,21 @@ export class DatepickerComponent implements OnInit {
       this.dateForm.get('dateTo').patchValue(dayFormatted);
     }
   }
+
+  public selectedQuarter(day) {
+    // day.startOf('M');
+    let dayFormatted = day.startOf('M').format('MM/DD/YYYY');
+    if (this.dateForm.valid) {
+      this.dateForm.setValue({ dateFrom: null, dateTo: null });
+      return;
+    }
+    if (!this.dateForm.get('dateFrom').value) {
+      this.dateForm.get('dateFrom').patchValue(dayFormatted);
+      this.createCalendar(day.startOf('M'))
+    } else {
+      this.dateForm.get('dateTo').patchValue(moment(dayFormatted).endOf('M').format('MM/DD/YYYY'));
+    }
+  }
+
+  
 }
