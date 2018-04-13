@@ -1,18 +1,47 @@
 .datepicker {
-        max-width: 540px;
-
-            position: absolute;
-    top: 36%;
-    left: 25%;
+  max-width: 768px;
+  height: 460.3px;
+  position: absolute;
+  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.25);
+  top: 36%;
+  left: 25%;
   &__controls {
     form {
       display: flex;
       align-items: center;
     }
   }
+  &__quarter {
+    display: flex;
+  }
+  &__quarter_container {
+    display: flex;
+    margin-right: 16px
+  }
+  &__quarter_month {
+    width: 41px;
+    height: 36px;
+    border: solid 1px #cccccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: -1px
+  }
+  &__quarter_num {
+    text-align: center;
+  }
   &__chevron_btn {
     display: flex;
     justify-content: space-between;
+    div {
+      width: 40px;
+      height: 36px;
+      background-color: #fbfbfb;
+      border: solid 1px #cccccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
   &__calendar_container>div {
     width: 195px;
@@ -25,16 +54,16 @@
     color: #0279c1;
     text-align: center;
   }
-  &__calendar_weeks{
-      display: inline-block;
-      float: left;
-      div{
-          height: 24px;
-    width: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-      }
+  &__calendar_weeks {
+    display: inline-block;
+    float: left;
+    div {
+      height: 24px;
+      width: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
   &__calendar_week_days {
     display: flex;
@@ -58,8 +87,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    &:hover{
-        cursor:pointer;
+    &:hover {
+      cursor: pointer;
     }
     &.inactive {
       opacity: 0.5;

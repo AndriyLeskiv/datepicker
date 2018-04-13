@@ -15,12 +15,14 @@ import * as moment from 'moment'
 })
 export class DatepickerComponent implements OnInit {
   public date = moment();
+  public quarterDate = moment().startOf('year');
   public dateForm: FormGroup;
 
   public isReserved = null;
 
   public daysArr =[];
   public numWeeks = [];
+  public quarter = []
 
   constructor(private fb: FormBuilder) {
     this.initDateRange();
@@ -34,6 +36,7 @@ export class DatepickerComponent implements OnInit {
 
   public ngOnInit() {
     this.createCalendar(moment());
+    this.createQuarter(this.quarterDate);
   }
 
   public resetValue() {
@@ -43,6 +46,7 @@ export class DatepickerComponent implements OnInit {
 
   public createCalendar(date) {
     this.resetValue();
+    
     for (let i = 0; i < 3; i++) {
       const month = moment(date).add(i, "M");
       this.numWeeks.push(this.createNumWeeks(month));
@@ -78,6 +82,18 @@ export class DatepickerComponent implements OnInit {
     return numWeeks;
   }
 
+  public createQuarter(startDay) {
+    this.quarter= [];
+    for (let i = 0; i < 4; i++) {
+      let oneQuarter = [];
+      let firstQuarterDate = moment(startDay).add(i * 3, "M");
+      for (let a = 0; a < 3; a++) {
+        oneQuarter.push(moment(firstQuarterDate).add(a, "M"));
+      }
+      this.quarter.push(oneQuarter);
+    }
+  }
+
   public nextMonth() {
     this.date.add(1, 'M');
     this.createCalendar(this.date);
@@ -86,6 +102,15 @@ export class DatepickerComponent implements OnInit {
   public previousMonth() {
     this.date.subtract(1, 'M');
     this.createCalendar(this.date);
+  }
+  public nextQuarter() {
+    this.quarterDate.add(3, 'M');
+    this.createQuarter(this.quarterDate);
+  };
+
+  public previousQuarter () {
+    this.quarterDate.subtract(3, 'M');
+    this.createQuarter(this.quarterDate);
   }
 
   public todayCheck(day) {

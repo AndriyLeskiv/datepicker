@@ -18,8 +18,24 @@
     {{isReserved}}
   </div>
   <div class='datepicker__chevron_btn'>
-    <div class='fa fa-chevron-left ' (click)='previousMonth()'> --- </div>
-    <div class='fa fa-chevron-right ' (click)='nextMonth() '> ---> </div>
+    <div class='fa fa-chevron-left ' (click)='previousQuarter()'> </div>
+    <div class='fa fa-chevron-right ' (click)='nextQuarter() '></div>
+  </div>
+  <div class="datepicker__quarter">
+    <div></div>
+    <div *ngFor="let month of quarter; let i = index">
+      <div class="">{{month[1].year()}}</div>
+      <div class="datepicker__quarter_container" >
+        <div class="datepicker__quarter_month" *ngFor="let oneQuarter of month;">
+          {{oneQuarter.month()}}
+        </div>
+      </div>
+      <div class="datepicker__quarter_num">{{month[1].quarter()}} <sup>th</sup></div>
+    </div>
+  </div>
+  <div class='datepicker__chevron_btn'>
+    <div class='fa fa-chevron-left ' (click)='previousMonth()'></div>
+    <div class='fa fa-chevron-right ' (click)='nextMonth() '></div>
   </div>
   <div class="datepicker__calendar_container">
     <div *ngFor="let month of daysArr; let i = index">
