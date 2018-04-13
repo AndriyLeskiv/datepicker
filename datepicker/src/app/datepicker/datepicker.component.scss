@@ -31,7 +31,7 @@
     }
   }
   &__quarter {
-    border-bottom: 1px solid #dedede;
+    // border-bottom: 1px solid #dedede;
     display: flex;
     margin-bottom: 26px;
     margin: 0 auto;
@@ -39,6 +39,11 @@
     width: 76%;
     z-index: 1;
     position: relative;
+  }
+  &__line{
+    position: absolute;
+    left: 0;
+    @include container-param(100%, 1px, #dedede);
   }
   &__quarter_year {
     margin-bottom: 6px;
@@ -103,6 +108,7 @@
     display: flex;
     margin: 36px auto;
     width: 81%;
+    margin-bottom: 10px;
   }
   &__calendar_month_name {
     color: #0279c1;
@@ -143,6 +149,34 @@
       color: red;
     }
   }
+  &__footer{
+    display: flex;
+    justify-content: space-between;
+        position: absolute;
+        align-items: center;
+    width: 92%;
+    bottom: 8px;
+  }
+  &__info {
+    @include text-mixin(#aeb1b2, 12px, normal);
+    display: flex;
+    align-items: center;
+    i{
+          font-size: 31px;
+    margin-right: 12px;
+    }
+  }
+  &__btn{
+    button {
+      width: 93px;
+      height: 32px;
+      background-color: #0279c1;
+      border: none;
+      @include text-mixin(#ffffff, 14px, normal);
+
+    }
+  }
+
 }
 
 .selected {

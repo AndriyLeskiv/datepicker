@@ -43,6 +43,7 @@
       </div>
     </div>
   </div>
+  <div class="datepicker__line"></div>
   <div class='datepicker__chevron_btn --month'>
     <div class='fa fa-chevron-left ' (click)='previousMonth()'></div>
     <div class='fa fa-chevron-right ' (click)='nextMonth() '></div>
@@ -82,5 +83,15 @@
       </div>
     </div>
   </div>
-  <button class='btn' (click)='reserve()'>Apply</button>
+  <div class="datepicker__footer">
+    <p class="datepicker__info">
+      <i class="fa fa-info-circle" aria-hidden="true"></i>
+      Press twice to select custom date range
+    </p>
+    <div class="datepicker__btn">
+      <button class='btn' (click)='reserve()'>Apply</button>
+    </div>
+  </div>
+ 
+  
 </div>
