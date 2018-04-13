@@ -34,21 +34,23 @@ export class DatepickerComponent implements OnInit {
 
   public ngOnInit() {
     this.createCalendar(moment());
-    console.log(this.numWeeks)
-    
+  }
+
+  public resetValue() {
+    this.numWeeks = [];
+    this.daysArr = [];
   }
 
   public createCalendar(date) {
+    this.resetValue();
     for (let i = 0; i < 3; i++) {
-      
-      const month = moment().add(i, "M");
+      const month = moment(date).add(i, "M");
       this.numWeeks.push(this.createNumWeeks(month));
-      let monthDays = this.createCalendarMonth(month)
+      const monthDays = this.createCalendarMonth(month)
       this.daysArr.push(monthDays);
     }
   }
   
-
   public createCalendarMonth(month) {
     let firstDay = moment(month).startOf('M');
     let days = Array.apply(null, { length: month.daysInMonth()})
@@ -56,14 +58,11 @@ export class DatepickerComponent implements OnInit {
       .map(n => {
         return moment(firstDay).add(n, 'd');
       });
+    //start from monday
+    //  let a = firstDay.weekday() - 1;
+    //   if(a < 0) a = 6
 
-   let a = firstDay.weekday();
-   a = a-1;
-    if(a < 0){
-      a = 6
-    }
-
-    for (let n = 0; n < a; n++) {
+    for (let n = 0; n < firstDay.weekday(); n++) {
       days.unshift(null);
     }
     return days;
@@ -71,22 +70,22 @@ export class DatepickerComponent implements OnInit {
 
   public createNumWeeks(date) {
     let firstDay = moment(date).startOf('M');
-    let num = [];
-    let a = firstDay.week() + 6
-    for(let i = firstDay.week(); i < a; i++) {
-      num.push(i);
+    let lastDay = moment(date).endOf('M');
+    let numWeeks = [];
+    for(let i = firstDay.week(); i < lastDay.week() + 1; i++) {
+      numWeeks.push(i);
     }
-    return num;
+    return numWeeks;
   }
 
   public nextMonth() {
     this.date.add(1, 'M');
-    // this.daysArr = this.createCalendar(this.date);
+    this.createCalendar(this.date);
   }
 
   public previousMonth() {
     this.date.subtract(1, 'M');
-    // this.daysArr = this.createCalendar(this.date);
+    this.createCalendar(this.date);
   }
 
   public todayCheck(day) {
