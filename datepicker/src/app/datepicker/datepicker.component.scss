@@ -167,12 +167,17 @@
     &.today {
       color: red;
     }
+    &.isHover {
+      background: #0279c1;
+      @include text-mixin(#ffffff, 11px, 600);
+      opacity: 0.6;
+    }
   }
   &__footer{
     display: flex;
     justify-content: space-between;
-        position: absolute;
-        align-items: center;
+    position: absolute;
+    align-items: center;
     width: 92%;
     bottom: 8px;
   }

@@ -81,7 +81,11 @@
           <div 
             class='datepicker__calendar_day' 
             (click)='selectedDate(day)' 
+            (mouseover)='dateHover(day)'
+            (mouseout)="dateHover(null)"
+            mouseout
             [ngClass]="{
+              'isHover' : isHover(day),
               'inactive ': !day, 
               'selected': isSelected(day), 
               'today': todayCheck(day)}">

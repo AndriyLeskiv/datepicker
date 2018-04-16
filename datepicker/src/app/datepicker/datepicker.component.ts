@@ -25,7 +25,9 @@ export class DatepickerComponent implements OnInit {
   public years = [];
   public quartersNum = ['st', 'nd', 'rd', 'th'];
   public daysOfWeek = ['Wk','Su','Mo','Tu','We','Th','Fr','Sa'];
-  
+
+  public hoverDate = null;
+
   constructor(private fb: FormBuilder) {
     this.initDateRange();
   }
@@ -223,5 +225,25 @@ export class DatepickerComponent implements OnInit {
 
   public showToday() {
     this.updateCalendar(moment());
+  }
+
+  public dateHover(day) {
+    this.hoverDate = day;
+  } 
+
+  public isHover(day) {
+    if (!day || !this.hoverDate || this.dateForm.valid) {
+      return false;
+    }
+    let dateFromMoment = moment(this.dateForm.value.dateFrom, 'MM/DD/YYYY');
+    let dateToMoment = this.hoverDate;
+    if (this.dateForm.get('dateFrom').valid) {
+      return (
+        dateFromMoment.isSameOrBefore(day) && dateToMoment.isSameOrAfter(day)
+      );
+    }
+    if (this.dateForm.get('dateFrom').valid) {
+      return dateFromMoment.isSame(day);
+    }
   }
 }
