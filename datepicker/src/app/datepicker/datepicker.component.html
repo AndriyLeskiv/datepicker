@@ -36,8 +36,13 @@
     <div></div>
     <div *ngFor="let month of quarter; let i = index">
       <div class="datepicker__quarter_year" >
-        <span (click)="selectedYear(month[0])">
-        {{month[1].year()}}
+        <span 
+          *ngIf="quarter[i-1] && quarter[i][1].year() != quarter[i-1][1].year()" 
+          (click)="selectedYear(month[0])">
+            {{month[1].year()}}
+        </span>
+        <span *ngIf="!quarter[i-1]" (click)="selectedYear(month[0])">
+          {{month[1].year()}}
         </span>
       </div>
       <div class="datepicker__quarter_container" >
@@ -103,7 +108,7 @@
     </p>
     <p *ngIf="error" class="datepicker__error">Please select date range</p>
     <div class="datepicker__btn">
-      <button class='btn' (click)='cancel()'>Cancel</button>
+      <button class='btn cancel' (click)='cancel()'>Cancel</button>
       <button class='btn' (click)='submit()'>Apply</button>
     </div>
   </div>

@@ -106,9 +106,9 @@ export class DatepickerComponent implements OnInit {
     let firstDay = moment(date).startOf('year');
     this.years = [];
     for (let i = 0; i < 3; i++) {
-        this.years.push(moment(firstDay).subtract(i, "year"));
-      }
-    console.log(this.years);
+      this.years.push(moment(firstDay).subtract(i, "year"));
+    }
+    this.years.reverse()
   }
 
   public nextMonth() {

@@ -103,6 +103,7 @@
   &__quarter_year {
     margin-bottom: 6px;
     text-decoration: underline;
+    height: 17px;
     span:hover{
       cursor:pointer;
     }
@@ -171,7 +172,7 @@
   &__calendar_container {
     display: flex;
     margin: 36px auto;
-    width: 81%;
+    width: 80%;
     margin-bottom: 10px;
   }
 
@@ -205,7 +206,7 @@
     display: flex;
     flex-wrap: wrap;
   }
-  
+
   &__calendar_day {
     @include text-mixin(#111111, 11px, 600);
     @include container-param(24px, 24px, white);
@@ -258,6 +259,11 @@
       &:hover{
         cursor: pointer;
       }
+    }
+    .cancel{
+      border: none;
+      background: none;
+      color: #0279c1;
     }
   }
 }
