@@ -16,19 +16,54 @@
 .datepicker {
   box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.25);
   left: 25%;
+  min-height: 472px;
   padding: 15px 30px;
   position: absolute;
-  top: 36%;
+  top: 15%;
   width: 768px;
-  min-height: 472px;
+
+  &__head {
+    align-items: center;
+    display: flex;
+  }
+
+  &__controls {
+    border: solid 1px #cccccc;
+    display: inline-block;
+    input {
+      border: none;
+      height: 38px;
+      padding-left: 12px;
+      pointer-events: none;
+      width: 80px;
+      @include text-mixin(#111111, 14px, normal);
+    }
+    &:hover{
+        cursor:pointer;
+      }
+  }
+
+  &__controls-btn{
+    @include text-mixin(#0279c1, 14px, normal);
+    margin-left: 20px;
+    &:hover{
+      cursor:pointer;
+    }
+    i {
+      margin-right: 10px;
+    }
+  }
+
   &__title-container{
     align-items: center;
     display: flex;
     justify-content: space-between;
   }
+
   &__title {
     @include text-mixin(#111111, 18px, normal);
   }
+
   &__years{
     @include text-mixin(#aeb1b2, 12px, normal);
     align-items: center;
@@ -41,12 +76,14 @@
       }
     }
   }
+
   &__controls {
     form {
       display: flex;
       align-items: center;
     }
   }
+
   &__quarter {
     display: flex;
     margin-bottom: 26px;
@@ -56,11 +93,13 @@
     z-index: 1;
     position: relative;
   }
+
   &__line{
     position: absolute;
     left: 0;
     @include container-param(100%, 1px, #dedede);
   }
+  
   &__quarter_year {
     margin-bottom: 6px;
     text-decoration: underline;
@@ -69,10 +108,12 @@
     }
     @include text-mixin(#aeb1b2, 12px, 600);
   }
+
   &__quarter_container {
     display: flex;
     margin-right: 16px
   }
+
   &__quarter_month {
     border: solid 1px #cccccc;
     margin-right: 2px;
@@ -86,6 +127,7 @@
       cursor: pointer;
     }
   }
+
   &__quarter_num {
     text-align: center;
     padding-right: 16px;
@@ -99,6 +141,7 @@
       }
     }
   }
+
   &__chevron_btn {
     display: flex;
     justify-content: space-between;
@@ -119,20 +162,24 @@
       }
     }
   }
+
   &__calendar_container>div {
     width: 195px;
     margin-right: 20px;
   }
+
   &__calendar_container {
     display: flex;
     margin: 36px auto;
     width: 81%;
     margin-bottom: 10px;
   }
+
   &__calendar_month_name {
     color: #0279c1;
     text-align: center;
   }
+
   &__calendar_weeks {
     display: inline-block;
     float: left;
@@ -141,9 +188,11 @@
       @include container-param(24px, 24px, white);
     }
   }
+
   &__calendar_month_name {
     @include text-mixin(#0279c1, 14px, 600);
   }
+
   &__calendar_week_days {
     display: flex;
     div {
@@ -151,10 +200,12 @@
       @include container-param(24px, 24px, white);
     }
   }
+
   &__calendar_days {
     display: flex;
     flex-wrap: wrap;
   }
+  
   &__calendar_day {
     @include text-mixin(#111111, 11px, 600);
     @include container-param(24px, 24px, white);
@@ -173,6 +224,7 @@
       opacity: 0.6;
     }
   }
+
   &__footer{
     display: flex;
     justify-content: space-between;
@@ -181,6 +233,7 @@
     width: 92%;
     bottom: 8px;
   }
+
   &__info {
     @include text-mixin(#aeb1b2, 12px, normal);
     display: flex;
@@ -190,6 +243,11 @@
     margin-right: 12px;
     }
   }
+
+  &__error{
+    @include text-mixin(#e15656, 14px, normal);
+  }
+
   &__btn{
     button {
       width: 93px;

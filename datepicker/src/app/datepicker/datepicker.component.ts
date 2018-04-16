@@ -14,11 +14,13 @@ import * as moment from 'moment'
   styleUrls: ['./datepicker.component.scss']
 })
 export class DatepickerComponent implements OnInit {
+
+  public isOpened: boolean;
   public date = moment();
   public quarterDate = moment().startOf('year');
   public dateForm: FormGroup;
 
-  public isReserved = null;
+  public error: boolean;
   public daysArr = [];
   public numWeeks = [];
   public quarter = [];
@@ -135,15 +137,6 @@ export class DatepickerComponent implements OnInit {
     return moment().format('L') === day.format('L');
   }
 
-  public reserve() {
-    if (!this.dateForm.valid) {
-      return;
-    }
-    let dateFromMoment = this.dateForm.value.dateFrom;
-    let dateToMoment = this.dateForm.value.dateTo;
-    this.isReserved = `Reserved from ${dateFromMoment} to ${dateToMoment}`;
-  }
-
   public isSelected(day) {
     if (!day) {
       return false;
@@ -161,6 +154,7 @@ export class DatepickerComponent implements OnInit {
   }
 
   public checkDate(day) {
+    this.error = false;
     if (!day) return false;
     if (this.dateForm.valid) this.dateForm.setValue({ dateFrom: null, dateTo: null });
     return true;
@@ -245,5 +239,22 @@ export class DatepickerComponent implements OnInit {
     if (this.dateForm.get('dateFrom').valid) {
       return dateFromMoment.isSame(day);
     }
+  }
+
+  public open() {
+    this.error = false;
+    this.isOpened = !this.isOpened;
+  }
+
+  public submit() {
+    if (!this.dateForm.valid) {
+      this.error = true;
+      return;
+    }
+    this.isOpened = false;
+  }
+
+  public cancel() {
+    this.isOpened = false;
   }
 }

@@ -1,10 +1,11 @@
-<div class="datepicker__controls">
+<div  class="datepicker__head"  >
+  <div class="datepicker__controls" (click)="open()" >
     <form [formGroup]='dateForm' class=''>
       <input 
         type="text" 
         name='dateFrom' 
         formControlName='dateFrom' 
-        placeholder='From Date'>
+        placeholder='From Date'>-
       <input 
         type="text" 
         placeholder='To Date' 
@@ -12,11 +13,11 @@
         formControlName='dateTo'>
     </form>
   </div>
-  <div *ngIf='isReserved' class=''>
-    {{isReserved}}
+  <div class="datepicker__controls-btn" (click)="open()">
+    <i class="fa fa-align-justify" aria-hidden="true"></i>Change
   </div>
-
-<div class="datepicker">
+</div>
+<div class="datepicker" *ngIf="isOpened">
   <div class="datepicker__title-container">
     <h2 class="datepicker__title" >Hightlight a Date Range</h2>
     <div class="datepicker__years">
@@ -46,7 +47,7 @@
           *ngFor="let oneQuarter of month;"
           [ngClass]="{ 
             'selected': isSelected(oneQuarter)}">
-          {{oneQuarter.month()}}
+          {{oneQuarter.month() + 1}}
         </div>
       </div>
       <div class="datepicker__quarter_num">
@@ -100,9 +101,10 @@
       <i class="fa fa-info-circle" aria-hidden="true"></i>
       Press twice to select custom date range
     </p>
+    <p *ngIf="error" class="datepicker__error">Please select date range</p>
     <div class="datepicker__btn">
-      <button class='btn' (click)='reserve()'>Cancel</button>
-      <button class='btn' (click)='reserve()'>Apply</button>
+      <button class='btn' (click)='cancel()'>Cancel</button>
+      <button class='btn' (click)='submit()'>Apply</button>
     </div>
   </div>
 </div>
