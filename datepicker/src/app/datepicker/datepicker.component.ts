@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Output } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -14,6 +14,8 @@ import * as moment from 'moment'
   styleUrls: ['./datepicker.component.scss']
 })
 export class DatepickerComponent implements OnInit {
+
+  @Output() dateOut: any;
 
   public isOpened: boolean;
   public date = moment();
@@ -250,6 +252,10 @@ export class DatepickerComponent implements OnInit {
     if (!this.dateForm.valid) {
       this.error = true;
       return;
+    }
+    this.dateOut = {
+      dateForm: this.dateForm.get('dateFrom').value,
+      dateTo: this.dateForm.get('dateTo').value,
     }
     this.isOpened = false;
   }
