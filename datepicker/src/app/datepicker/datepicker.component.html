@@ -17,7 +17,16 @@
   </div>
 
 <div class="datepicker">
-  <h2  class="datepicker__title" >Hightlight a Date Range</h2>
+  <div class="datepicker__title-container">
+    <h2 class="datepicker__title" >Hightlight a Date Range</h2>
+    <div class="datepicker__years">
+      <p>Scroll to:</p>
+      <div *ngFor="let year of years; let i = index" (click)="yearScroll(year)">
+        {{year.year()}}
+      </div>
+      <div (click)="showToday()">Today</div>
+    </div>
+  </div>
   <div class='datepicker__chevron_btn --quarter'>
     <div class='fa fa-chevron-left ' (click)='previousQuarter()'> </div>
     <div class='fa fa-chevron-right ' (click)='nextQuarter() '></div>
@@ -25,8 +34,10 @@
   <div class="datepicker__quarter">
     <div></div>
     <div *ngFor="let month of quarter; let i = index">
-      <div class="datepicker__quarter_year" (click)="selectedYear(month[0])">
+      <div class="datepicker__quarter_year" >
+        <span (click)="selectedYear(month[0])">
         {{month[1].year()}}
+        </span>
       </div>
       <div class="datepicker__quarter_container" >
         <div 
@@ -39,7 +50,9 @@
         </div>
       </div>
       <div class="datepicker__quarter_num">
-        <p  (click)="selectedOneQuarter(month[0])">{{month[1].quarter()}}<sup>th</sup></p>
+        <p  (click)="selectedOneQuarter(month[0])">{{month[1].quarter()}}
+          <sup>{{quartersNum[month[1].quarter() - 1]}}</sup>
+        </p>
       </div>
     </div>
   </div>
@@ -54,14 +67,9 @@
         {{month[15].format('MMMM ').slice(0,3)}} {{month[15].format('YYYY ')}}
       </div>
       <div class='datepicker__calendar_week_days'>
-        <div>Wk</div>
-        <div>Su</div>
-        <div>Mo</div>
-        <div>Tu</div>
-        <div>We</div>
-        <div>Th</div>
-        <div>Fr</div>
-        <div>Sa</div>
+        <div *ngFor="let day of daysOfWeek">
+          {{day}}
+        </div>
       </div>
       <div class="datepicker__calendar_weeks">
         <div *ngFor="let week of numWeeks[i];">
@@ -89,9 +97,8 @@
       Press twice to select custom date range
     </p>
     <div class="datepicker__btn">
+      <button class='btn' (click)='reserve()'>Cancel</button>
       <button class='btn' (click)='reserve()'>Apply</button>
     </div>
   </div>
- 
-  
 </div>

@@ -21,8 +21,25 @@
   top: 36%;
   width: 768px;
   min-height: 472px;
+  &__title-container{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
   &__title {
     @include text-mixin(#111111, 18px, normal);
+  }
+  &__years{
+    @include text-mixin(#aeb1b2, 12px, normal);
+    align-items: center;
+    display: flex;
+    div{
+      margin-left: 11px;
+      text-decoration: underline;
+      &:hover{
+        cursor:pointer;
+      }
+    }
   }
   &__controls {
     form {
@@ -31,7 +48,6 @@
     }
   }
   &__quarter {
-    // border-bottom: 1px solid #dedede;
     display: flex;
     margin-bottom: 26px;
     margin: 0 auto;
@@ -48,6 +64,9 @@
   &__quarter_year {
     margin-bottom: 6px;
     text-decoration: underline;
+    span:hover{
+      cursor:pointer;
+    }
     @include text-mixin(#aeb1b2, 12px, 600);
   }
   &__quarter_container {
@@ -74,7 +93,7 @@
     p {
       border-bottom: 1px solid;
       margin: 9px auto;
-      width: 16px;
+      width: 23px;
       &:hover {
         cursor: pointer;
       }
@@ -173,10 +192,11 @@
       background-color: #0279c1;
       border: none;
       @include text-mixin(#ffffff, 14px, normal);
-
+      &:hover{
+        cursor: pointer;
+      }
     }
   }
-
 }
 
 .selected {
