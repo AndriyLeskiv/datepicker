@@ -56,7 +56,7 @@ export class DatepickerComponent implements OnInit {
 
   public createCalendar(date) {
     this.resetValue();
-
+    
     for (let i = 0; i < 3; i++) {
       const month = moment(date).add(i, "M");
       this.numWeeks.push(this.createNumWeeks(month));
@@ -64,10 +64,9 @@ export class DatepickerComponent implements OnInit {
       this.daysArr.push(monthDays);
     }
   }
-
+  
   public createCalendarMonth(month) {
     let firstDay = moment(month).startOf('M');
-    let lastDay = moment(month).endOf('M');
     let days = Array.apply(null, { length: month.daysInMonth()})
       .map(Number.call, Number)
       .map(n => {
@@ -78,15 +77,8 @@ export class DatepickerComponent implements OnInit {
     //   if(a < 0) a = 6
 
     for (let n = 0; n < firstDay.weekday(); n++) {
-      days.unshift(moment(firstDay).subtract(n + 1, 'days'));
+      days.unshift(null);
     }
-    if(lastDay.weekday() != 6){
-      for (let n = 0; n < lastDay.weekday(); n++) {
-        days.splice(-1, 1);
-      }
-      days.splice(-1, 1);
-    }
-
     return days;
   }
 
@@ -96,9 +88,6 @@ export class DatepickerComponent implements OnInit {
     let numWeeks = [];
     for(let i = firstDay.week(); i < lastDay.week() + 1; i++) {
       numWeeks.push(i);
-    }
-    if (lastDay.weekday() != 6) {
-      numWeeks.splice(-1, 1);
     }
     return numWeeks;
   }
@@ -191,7 +180,7 @@ export class DatepickerComponent implements OnInit {
   public selectedQuarter(day) {
     if(!(this.checkDate(day))) return;
     let dayFormatted = day.startOf('M').format('MM/DD/YYYY');
-
+  
     if (!this.dateForm.get('dateFrom').value) {
       this.dateForm.get('dateFrom').patchValue(dayFormatted);
       this.updateCalendar(day);
@@ -236,7 +225,7 @@ export class DatepickerComponent implements OnInit {
 
   public dateHover(day) {
     this.hoverDate = day;
-  }
+  } 
 
   public isHover(day) {
     if (!day || !this.hoverDate || this.dateForm.valid) {

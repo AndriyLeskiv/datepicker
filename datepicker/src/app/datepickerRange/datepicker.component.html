@@ -1,0 +1,115 @@
+<div  class="datepicker__head"  >
+  <div class="datepicker__controls" (click)="open()" >
+    <form [formGroup]='dateForm' class=''>
+      <input 
+        type="text" 
+        name='dateFrom' 
+        formControlName='dateFrom' 
+        placeholder='From Date'>-
+      <input 
+        type="text" 
+        placeholder='To Date' 
+        name='dateTo' 
+        formControlName='dateTo'>
+    </form>
+  </div>
+  <div class="datepicker__controls-btn" (click)="open()">
+    <i class="fa fa-align-justify" aria-hidden="true"></i>Change
+  </div>
+</div>
+<div class="datepicker" *ngIf="isOpened">
+  <div class="datepicker__title-container">
+    <h2 class="datepicker__title" >Hightlight a Date Range</h2>
+    <div class="datepicker__years">
+      <p>Scroll to:</p>
+      <div *ngFor="let year of years; let i = index" (click)="yearScroll(year)">
+        {{year.year()}}
+      </div>
+      <div (click)="showToday()">Today</div>
+    </div>
+  </div>
+  <div class='datepicker__chevron_btn --quarter'>
+    <div class='fa fa-chevron-left ' (click)='previousQuarter()'> </div>
+    <div class='fa fa-chevron-right ' (click)='nextQuarter() '></div>
+  </div>
+  <div class="datepicker__quarter">
+    <div></div>
+    <div *ngFor="let month of quarter; let i = index">
+      <div class="datepicker__quarter_year" >
+        <span 
+          *ngIf="quarter[i-1] && quarter[i][1].year() != quarter[i-1][1].year()" 
+          (click)="selectedYear(month[0])">
+            {{month[1].year()}}
+        </span>
+        <span *ngIf="!quarter[i-1]" (click)="selectedYear(month[0])">
+          {{month[1].year()}}
+        </span>
+      </div>
+      <div class="datepicker__quarter_container" >
+        <div 
+          class="datepicker__quarter_month" 
+          (click)='selectedQuarter(oneQuarter)' 
+          *ngFor="let oneQuarter of month;"
+          [ngClass]="{ 
+            'selected': isSelected(oneQuarter)}">
+          {{oneQuarter.month() + 1}}
+        </div>
+      </div>
+      <div class="datepicker__quarter_num">
+        <p  (click)="selectedOneQuarter(month[0])">{{month[1].quarter()}}
+          <sup>{{quartersNum[month[1].quarter() - 1]}}</sup>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="datepicker__line"></div>
+  <div class='datepicker__chevron_btn --month'>
+    <div class='fa fa-chevron-left ' (click)='previousMonth()'></div>
+    <div class='fa fa-chevron-right ' (click)='nextMonth() '></div>
+  </div>
+  <div class="datepicker__calendar_container">
+    <div *ngFor="let month of daysArr; let i = index">
+      <div class="datepicker__calendar_month_name">
+        {{month[15].format('MMMM ').slice(0,3)}} {{month[15].format('YYYY ')}}
+      </div>
+      <div class='datepicker__calendar_week_days'>
+        <div *ngFor="let day of daysOfWeek">
+          {{day}}
+        </div>
+      </div>
+      <div class="datepicker__calendar_weeks">
+        <div *ngFor="let week of numWeeks[i];">
+          {{week}}
+        </div>
+      </div>
+      <div class='datepicker__calendar_days'>
+        <div *ngFor="let day of month">
+          <div 
+            class='datepicker__calendar_day' 
+            (click)='selectedDate(day)' 
+            (mouseover)='dateHover(day)'
+            (mouseout)="dateHover(null)"
+            mouseout
+            [ngClass]="{
+              'isHover' : isHover(day),
+              'inactive ': !day, 
+              'selected': isSelected(day), 
+              'today': todayCheck(day)}">
+            {{day?.date()}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="datepicker__footer">
+    <p class="datepicker__info">
+      <i class="fa fa-info-circle" aria-hidden="true"></i>
+      Press twice to select custom date range
+    </p>
+    <p *ngIf="error" class="datepicker__error">Please select date range</p>
+    <div class="datepicker__btn">
+      <button class='btn cancel' (click)='cancel()'>Cancel</button>
+      <button class='btn' (click)='submit()'>Apply</button>
+    </div>
+  </div>
+</div>

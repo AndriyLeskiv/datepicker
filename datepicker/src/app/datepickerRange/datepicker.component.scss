@@ -1,0 +1,274 @@
+@mixin text-mixin($color, $size, $weight) {
+  color: $color;
+  font-size: $size;
+  font-weight: $weight;
+}
+
+@mixin container-param($width, $height, $background) {
+  width: $width;
+  height: $height;
+  background-color: $background;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.datepicker {
+  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.25);
+  left: 25%;
+  min-height: 472px;
+  padding: 15px 30px;
+  position: absolute;
+  top: 15%;
+  width: 768px;
+
+  &__head {
+    align-items: center;
+    display: flex;
+  }
+
+  &__controls {
+    border: solid 1px #cccccc;
+    display: inline-block;
+    input {
+      border: none;
+      height: 38px;
+      padding-left: 12px;
+      pointer-events: none;
+      width: 80px;
+      @include text-mixin(#111111, 14px, normal);
+    }
+    &:hover{
+        cursor:pointer;
+      }
+  }
+
+  &__controls-btn{
+    @include text-mixin(#0279c1, 14px, normal);
+    margin-left: 20px;
+    &:hover{
+      cursor:pointer;
+    }
+    i {
+      margin-right: 10px;
+    }
+  }
+
+  &__title-container{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    @include text-mixin(#111111, 18px, normal);
+  }
+
+  &__years{
+    @include text-mixin(#aeb1b2, 12px, normal);
+    align-items: center;
+    display: flex;
+    div{
+      margin-left: 11px;
+      text-decoration: underline;
+      &:hover{
+        cursor:pointer;
+      }
+    }
+  }
+
+  &__controls {
+    form {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__quarter {
+    display: flex;
+    margin-bottom: 26px;
+    margin: 0 auto;
+    padding-bottom: 5px;
+    width: 76%;
+    z-index: 1;
+    position: relative;
+  }
+
+  &__line{
+    position: absolute;
+    left: 0;
+    @include container-param(100%, 1px, #dedede);
+  }
+  
+  &__quarter_year {
+    margin-bottom: 6px;
+    text-decoration: underline;
+    height: 17px;
+    span:hover{
+      cursor:pointer;
+    }
+    @include text-mixin(#aeb1b2, 12px, 600);
+  }
+
+  &__quarter_container {
+    display: flex;
+    margin-right: 16px
+  }
+
+  &__quarter_month {
+    border: solid 1px #cccccc;
+    margin-right: 2px;
+    @include text-mixin(#111111, 14px, 600);
+    @include container-param(41px, 36px, white);
+    &.selected {
+      @include text-mixin(#ffffff, 14px, 600);
+      border-color: #0279c1;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__quarter_num {
+    text-align: center;
+    padding-right: 16px;
+    @include text-mixin(#aeb1b2, 12px, 600);
+    p {
+      border-bottom: 1px solid;
+      margin: 9px auto;
+      width: 23px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__chevron_btn {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    width: 93%;
+    &.--quarter {
+      top: 92px;
+    }
+    &.--month {
+      margin-top: 27px;
+    }
+    div {
+      border: solid 1px #cccccc;
+      color: #0279c1;
+      @include container-param(40px, 36px, #fbfbfb);
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__calendar_container>div {
+    width: 195px;
+    margin-right: 20px;
+  }
+
+  &__calendar_container {
+    display: flex;
+    margin: 36px auto;
+    width: 80%;
+    margin-bottom: 10px;
+  }
+
+  &__calendar_month_name {
+    color: #0279c1;
+    text-align: center;
+  }
+
+  &__calendar_weeks {
+    display: inline-block;
+    float: left;
+    div {
+      @include text-mixin(#aaaaaa, 11px, normal);
+      @include container-param(24px, 24px, white);
+    }
+  }
+
+  &__calendar_month_name {
+    @include text-mixin(#0279c1, 14px, 600);
+  }
+
+  &__calendar_week_days {
+    display: flex;
+    div {
+      @include text-mixin(#aaaaaa, 10px, normal);
+      @include container-param(24px, 24px, white);
+    }
+  }
+
+  &__calendar_days {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__calendar_day {
+    @include text-mixin(#111111, 11px, 600);
+    @include container-param(24px, 24px, white);
+    &:hover:not(.inactive) {
+      cursor: pointer;
+    }
+    &.inactive {
+      opacity: 0.5;
+    }
+    &.today {
+      color: red;
+    }
+    &.isHover {
+      background: #0279c1;
+      @include text-mixin(#ffffff, 11px, 600);
+      opacity: 0.6;
+    }
+  }
+
+  &__footer{
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    align-items: center;
+    width: 92%;
+    bottom: 8px;
+  }
+
+  &__info {
+    @include text-mixin(#aeb1b2, 12px, normal);
+    display: flex;
+    align-items: center;
+    i{
+          font-size: 31px;
+    margin-right: 12px;
+    }
+  }
+
+  &__error{
+    @include text-mixin(#e15656, 14px, normal);
+  }
+
+  &__btn{
+    button {
+      width: 93px;
+      height: 32px;
+      background-color: #0279c1;
+      border: none;
+      @include text-mixin(#ffffff, 14px, normal);
+      &:hover{
+        cursor: pointer;
+      }
+    }
+    .cancel{
+      border: none;
+      background: none;
+      color: #0279c1;
+    }
+  }
+}
+
+.selected {
+  background: #0279c1;
+  @include text-mixin(#ffffff, 11px, 600);
+}
