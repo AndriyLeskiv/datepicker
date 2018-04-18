@@ -51,7 +51,8 @@
           (click)='selectedQuarter(oneQuarter)' 
           *ngFor="let oneQuarter of month;"
           [ngClass]="{ 
-            'selected': isSelected(oneQuarter)}">
+            'selected': isSelected(oneQuarter),
+            'click': isClick(oneQuarter)}">
           {{oneQuarter.month() + 1}}
         </div>
       </div>

@@ -28,7 +28,7 @@ export class DatepickerComponent implements OnInit {
   public quarter = [];
   public years = [];
   public quartersNum = ['st', 'nd', 'rd', 'th'];
-  public daysOfWeek = ['Wk','Su','Mo','Tu','We','Th','Fr','Sa'];
+  public daysOfWeek = ['Wk','Mo','Tu','We','Th','Fr','Sa', 'Su'];
 
   public hoverDate = null;
 
@@ -44,6 +44,13 @@ export class DatepickerComponent implements OnInit {
   }
 
   public ngOnInit() {
+    moment.updateLocale('en', {
+      week: {
+        dow: 1,
+        doy : 7
+      },
+    })
+
     this.createCalendar(moment());
     this.createQuarter(this.quarterDate);
     this.createYears(moment());
@@ -91,13 +98,19 @@ export class DatepickerComponent implements OnInit {
   }
 
   public createNumWeeks(date) {
+
     let firstDay = moment(date).startOf('M');
     let lastDay = moment(date).endOf('M');
     let numWeeks = [];
+    let key;
+    if (firstDay.week() > lastDay.week()){
+      key = true;
+      lastDay = moment(date).endOf('M').subtract(7, 'days');
+    }
     for(let i = firstDay.week(); i < lastDay.week() + 1; i++) {
       numWeeks.push(i);
     }
-    if (lastDay.weekday() != 6) {
+    if (lastDay.weekday() != 6 && !key) {
       numWeeks.splice(-1, 1);
     }
     return numWeeks;
@@ -158,7 +171,8 @@ export class DatepickerComponent implements OnInit {
     let dateToMoment = moment(this.dateForm.value.dateTo, 'MM/DD/YYYY');
     if (this.dateForm.valid) {
       return (
-        dateFromMoment.isSameOrBefore(day) && dateToMoment.isSameOrAfter(day)
+        (dateFromMoment.isSameOrBefore(day) && dateToMoment.isSameOrAfter(day)) ||
+        (dateFromMoment.isSameOrAfter(day) && dateToMoment.isSameOrBefore(day))
       );
     }
     if (this.dateForm.get('dateFrom').valid) {
@@ -166,15 +180,19 @@ export class DatepickerComponent implements OnInit {
     }
   }
 
-  public checkDate(day) {
+  public checkDate(day, reset?) {
     this.error = false;
     if (!day) return false;
+    if( reset) {
+      this.dateForm.setValue({ dateFrom: null, dateTo: null });
+      return true;
+    }
     if (this.dateForm.valid) this.dateForm.setValue({ dateFrom: null, dateTo: null });
     return true;
   }
 
   public updateCalendar(day) {
-    this.date = moment(day).startOf('M');
+    this.date = moment(day).endOf('week').startOf('M');
     this.createCalendar(this.date);
   }
 
@@ -184,44 +202,65 @@ export class DatepickerComponent implements OnInit {
     if (!this.dateForm.get('dateFrom').value) {
       this.dateForm.get('dateFrom').patchValue(dayFormatted);
     } else {
+      let dateTo = moment(this.dateForm.get('dateFrom').value, 'MM/DD/YYYY')
+      if((dateTo).isSameOrAfter(day) ){
+        
+        this.dateForm.get('dateFrom').patchValue(dayFormatted);
+        this.dateForm.get('dateTo').patchValue(dateTo.format('MM/DD/YYYY'));
+        return;
+      }
       this.dateForm.get('dateTo').patchValue(dayFormatted);
     }
   }
 
   public selectedQuarter(day) {
     if(!(this.checkDate(day))) return;
-    let dayFormatted = day.startOf('M').format('MM/DD/YYYY');
-
+    let date = this.createBroadcasterCalendarDate(day, 'M');
     if (!this.dateForm.get('dateFrom').value) {
-      this.dateForm.get('dateFrom').patchValue(dayFormatted);
-      this.updateCalendar(day);
+      this.dateForm.get('dateFrom').patchValue(date.firstDay);
+      this.updateCalendar(date.firstDay);
     } else {
-      this.dateForm.get('dateTo').patchValue(moment(dayFormatted).endOf('M').format('MM/DD/YYYY'));
+      let dateTo = moment(this.dateForm.get('dateFrom').value, 'MM/DD/YYYY')
+      if((dateTo).isSameOrAfter(day) ){
+        return;
+        // TO_DO write reverse
+      }
+
+      this.dateForm.get('dateTo').patchValue(date.lastDay);
     }
   }
+ 
 
   public selectedOneQuarter(day) {
-    if(!(this.checkDate(day))) return;
-    let dayFormatted = day.startOf('M').format('MM/DD/YYYY');
-
+    if(!(this.checkDate(day, true))) return;
+    let firstDay = moment(day).startOf('M').startOf('isoWeek').format('MM/DD/YYYY');
+    let lastDay =  moment(day).endOf('M').add(2, "M").subtract(1,'week').endOf('isoWeek').format('MM/DD/YYYY');
     if (!this.dateForm.get('dateFrom').value) {
-      this.dateForm.get('dateFrom').patchValue(dayFormatted);
-      this.dateForm.get('dateTo').patchValue(moment(dayFormatted).endOf('M').add(2, "M").format('MM/DD/YYYY'));
-     this.updateCalendar(day);
+      this.dateForm.get('dateFrom').patchValue(firstDay);
+      this.dateForm.get('dateTo').patchValue(lastDay);
+     this.updateCalendar(firstDay);
     }
   }
 
   public selectedYear (day) {
-    if(!(this.checkDate(day))) return;
-    let dayFormatted = day.startOf('year').format('MM/DD/YYYY');
+    if(!(this.checkDate(day, true))) return;
+    let date = this.createBroadcasterCalendarDate(day, 'year');
 
     if (!this.dateForm.get('dateFrom').value) {
-      this.dateForm.get('dateFrom').patchValue(dayFormatted);
-      this.dateForm.get('dateTo').patchValue(moment(dayFormatted).endOf('year').format('MM/DD/YYYY'));
-      this.quarterDate = moment(dayFormatted).startOf('M');
+      this.dateForm.get('dateFrom').patchValue(date.firstDay);
+      this.dateForm.get('dateTo').patchValue(date.lastDay);
+      this.quarterDate = moment(date.firstDay).endOf('isoWeek').startOf('M');
       this.createQuarter(this.quarterDate);
-      this.updateCalendar(dayFormatted);
+      this.updateCalendar(date.firstDay);
     }
+  }
+
+  public createBroadcasterCalendarDate(day, type) {
+    const date = {
+      firstDay: moment(day).startOf(type).startOf('isoWeek').format('MM/DD/YYYY'),
+      lastDay: moment(day).endOf(type).subtract(1,'week').endOf('isoWeek').format('MM/DD/YYYY')
+    }
+    return date;
   }
 
   public yearScroll(date) {
@@ -246,7 +285,8 @@ export class DatepickerComponent implements OnInit {
     let dateToMoment = this.hoverDate;
     if (this.dateForm.get('dateFrom').valid) {
       return (
-        dateFromMoment.isSameOrBefore(day) && dateToMoment.isSameOrAfter(day)
+        (dateFromMoment.isSameOrBefore(day) && dateToMoment.isSameOrAfter(day)) ||
+        (dateFromMoment.isSameOrAfter(day) && dateToMoment.isSameOrBefore(day))
       );
     }
     if (this.dateForm.get('dateFrom').valid) {
@@ -273,5 +313,12 @@ export class DatepickerComponent implements OnInit {
 
   public cancel() {
     this.isOpened = false;
+  }
+
+  public isClick(day) {
+    if(this.dateForm.get('dateFrom').valid) {
+      let start = moment(this.dateForm.value.dateFrom, 'MM/DD/YYYY').endOf('isoWeek');
+      return start.isSame(day.endOf('isoWeek'));
+    }
   }
 }
